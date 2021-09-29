@@ -20,6 +20,6 @@ public class Main {
 //        System.out.println(CommentRepository.getCommentsByAdvertisementId(1l));
 //        User user = new User("Some User", "pasword");
 //        UserRepository.setUser(user);
-        System.out.println(UserRepository.getUsersSingIn("sad","das"));
+        System.out.println(UserRepository.getAllUsers());
     }
 }

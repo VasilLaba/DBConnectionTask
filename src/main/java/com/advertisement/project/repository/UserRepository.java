@@ -1,6 +1,6 @@
 package com.advertisement.project.repository;
 
-import com.advertisement.project.config.JDBC;
+import com.advertisement.project.config.DBConnector;
 import com.advertisement.project.model.User;
 import com.advertisement.project.services.HashPassword;
 
@@ -13,12 +13,10 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.advertisement.project.services.HashPassword.mdFive;
-
 public class UserRepository {
     public static User getById(Long idSearch) throws SQLException {
         User user = new User();
-        try (final Connection connection = JDBC.getConnection();
+        try (final Connection connection = DBConnector.getConnection();
              PreparedStatement statement = connection.prepareStatement("SELECT * FROM users WHERE id = ?")){
             statement.setLong(1, idSearch);
             final ResultSet resultSet = statement.executeQuery();
@@ -32,7 +30,7 @@ public class UserRepository {
     }
 
     public static boolean addUser(User user) throws IOException, SQLException, NoSuchAlgorithmException {
-        final Connection connection = JDBC.getConnection();
+        final Connection connection = DBConnector.getConnection();
         try (PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO users  (full_name , user_password ) VALUES (?,?);")) {
             preparedStatement.setString(1, user.getFullName());
             preparedStatement.setString(2,  HashPassword.mdFive(user.getPassword()));
@@ -46,7 +44,7 @@ public class UserRepository {
     }
 
     public static boolean updateUser(Long id, User user) throws IOException, SQLException, NoSuchAlgorithmException {
-        final Connection connection = JDBC.getConnection();
+        final Connection connection = DBConnector.getConnection();
         try (PreparedStatement preparedStatement = connection.prepareStatement("UPDATE users SET full_name  = ?  WHERE id = ?;")) {
             preparedStatement.setString(1, user.getFullName());
             preparedStatement.setLong(5, id);
@@ -60,7 +58,7 @@ public class UserRepository {
     }
 
     public static boolean deleteUser(Long idDelete) throws IOException, SQLException {
-        final Connection connection = JDBC.getConnection();
+        final Connection connection = DBConnector.getConnection();
         try (PreparedStatement preparedStatement = connection.prepareStatement("delete from users WHERE Id=?")) {
             preparedStatement.setLong(1,idDelete);
             preparedStatement.executeUpdate();
@@ -72,7 +70,7 @@ public class UserRepository {
 
     public static List<User> getAllUsers() throws SQLException, IOException {
         List<User> userList = new ArrayList<>();
-        final Connection connection = JDBC.getConnection();
+        final Connection connection = DBConnector.getConnection();
         try (PreparedStatement statement = connection.prepareStatement("SELECT * FROM users")) {
             final ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
@@ -89,14 +87,7 @@ public class UserRepository {
         return userList;
     }
 
-    /**@
-     *
-     * @param login
-     * @param password
-     * @return
-     * @throws SQLException
-     * @throws IOException
-     */
+
 //    public static User getUsersSingIn(String login, String password) throws SQLException, IOException {
 //        User user = new User();
 //        final Connection connection = JDBC.getConnection();

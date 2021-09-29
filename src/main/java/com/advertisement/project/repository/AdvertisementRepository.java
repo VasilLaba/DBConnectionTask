@@ -1,8 +1,7 @@
 package com.advertisement.project.repository;
 
-import com.advertisement.project.config.JDBC;
+import com.advertisement.project.config.DBConnector;
 import com.advertisement.project.model.Advertisement;
-import com.advertisement.project.model.User;
 
 import java.io.IOException;
 import java.sql.*;
@@ -12,9 +11,11 @@ import java.util.List;
 
 public class AdvertisementRepository {
 
+
+
     public static Advertisement getAdvertisementById(Long idSearch) throws SQLException, IOException {
         Advertisement advert = new Advertisement();
-        final Connection connection = JDBC.getConnection();
+        final Connection connection = DBConnector.getConnection();
         try (java.sql.PreparedStatement statement = connection.prepareStatement("SELECT id, title, created_at, description, user_id FROM advertisement WHERE advertisement.id = (?)"))
         {
             statement.setLong(1, idSearch);
@@ -34,7 +35,7 @@ public class AdvertisementRepository {
     public static List<Advertisement> getAdvertisementByUserId(Long idSearch) throws SQLException, IOException {
         List<Advertisement> advertisementByUserIdList = new ArrayList<>();
         Advertisement advertisement;
-        final Connection connection = JDBC.getConnection();
+        final Connection connection = DBConnector.getConnection();
         try (java.sql.PreparedStatement statement = connection.prepareStatement("" +
                 "SELECT Id, title, created_at , description FROM Advertisements WHERE AuthorId = (?)"))
         {
@@ -55,7 +56,7 @@ public class AdvertisementRepository {
         return advertisementByUserIdList;
     }
     public static boolean setAdvertisement(Advertisement advertisement) throws IOException, SQLException {
-        final Connection connection = JDBC.getConnection();
+        final Connection connection = DBConnector.getConnection();
         try (PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO advertisement ( title, created_at ,description ,user_id ) VALUES (?,?,?,?);")) {
             preparedStatement.setString(1, advertisement.getTitle());
             preparedStatement.setDate(2, Date.valueOf(LocalDate.now()));
@@ -70,7 +71,7 @@ public class AdvertisementRepository {
         }
     }
     public static boolean updateAdvert(Advertisement advertisement) throws IOException, SQLException {
-        final Connection connection = JDBC.getConnection();
+        final Connection connection = DBConnector.getConnection();
         try (PreparedStatement preparedStatement = connection.prepareStatement("UPDATE advertisement SET title = ?, created_at  = ?, description  = ? WHERE id = ?;")) {
             preparedStatement.setString(1, advertisement.getTitle());
             preparedStatement.setDate(2, Date.valueOf(LocalDate.now()));
@@ -85,7 +86,7 @@ public class AdvertisementRepository {
     }
 
     public static boolean deleteAdvert(Long idDelete) throws IOException, SQLException {
-        final Connection connection = JDBC.getConnection();
+        final Connection connection = DBConnector.getConnection();
         try (PreparedStatement preparedStatement = connection.prepareStatement("delete from advertisement WHERE id=?")) {
             preparedStatement.setLong(1,idDelete);
             preparedStatement.executeUpdate();
@@ -97,7 +98,7 @@ public class AdvertisementRepository {
 
     public static List<Advertisement> getAllAdverts() throws SQLException, IOException {
         List<Advertisement> advertisementList = new ArrayList<>();
-        final Connection connection = JDBC.getConnection();
+        final Connection connection = DBConnector.getConnection();
         try (PreparedStatement statement = connection.prepareStatement("SELECT * FROM advertisement;")) {
             final ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {

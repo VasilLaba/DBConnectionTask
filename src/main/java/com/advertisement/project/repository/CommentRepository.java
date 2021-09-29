@@ -1,6 +1,6 @@
 package com.advertisement.project.repository;
 
-import com.advertisement.project.config.JDBC;
+import com.advertisement.project.config.DBConnector;
 import com.advertisement.project.model.Comment;
 import com.advertisement.project.model.User;
 
@@ -13,7 +13,7 @@ import java.util.List;
 public class CommentRepository {
 
     public static boolean setComment(Comment comment) throws IOException, SQLException {
-        final Connection connection = JDBC.getConnection();
+        final Connection connection = DBConnector.getConnection();
         try (PreparedStatement preparedStatement = connection.prepareStatement(
                 "INSERT INTO comments (created_at, text, user_id, advertisement_id) VALUES (?,?,?,?);")) {
             preparedStatement.setDate(1, Date.valueOf(LocalDate.now()) /*Date.valueOf( advert.getDateOfCreating())*/);
@@ -30,7 +30,7 @@ public class CommentRepository {
     }
 
     public static boolean updateComment(Comment comment) throws IOException, SQLException {
-        final Connection connection = JDBC.getConnection();
+        final Connection connection = DBConnector.getConnection();
         try (PreparedStatement preparedStatement = connection.prepareStatement("UPDATE comments SET created_at,  text = ?  WHERE id = ?;")) {
             preparedStatement.setString(1, comment.getText());
             preparedStatement.setDate(2, Date.valueOf(LocalDate.now()));
@@ -45,7 +45,7 @@ public class CommentRepository {
     }
 
     public static boolean deleteComment(Long idDelete) throws IOException, SQLException {
-        final Connection connection = JDBC.getConnection();
+        final Connection connection = DBConnector.getConnection();
         try (PreparedStatement preparedStatement = connection.prepareStatement("delete from comments WHERE id=?")) {
             preparedStatement.setLong(1,idDelete);
             preparedStatement.executeUpdate();
@@ -58,7 +58,7 @@ public class CommentRepository {
     public static List<Comment> getCommentsByAdvertisementId(Long idSearch) throws SQLException, IOException {
         List<Comment> commentByUserIdList = new ArrayList<>();
         Comment comment;
-        final Connection connection = JDBC.getConnection();
+        final Connection connection = DBConnector.getConnection();
         try (java.sql.PreparedStatement statement = connection.prepareStatement("" +
                 "SELECT * FROM Comments JOIN users ON user_id  = users.id  WHERE  advertisement_id  = (?)"))
         {
