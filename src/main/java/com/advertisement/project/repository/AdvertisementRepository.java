@@ -11,8 +11,6 @@ import java.util.List;
 
 public class AdvertisementRepository {
 
-
-
     public static Advertisement getAdvertisementById(Long idSearch) throws SQLException, IOException {
         Advertisement advert = new Advertisement();
         final Connection connection = DBConnector.getConnection();

@@ -52,13 +52,6 @@ public class User {
         this.password = password;
     }
 
-//    private String getHashPass(){
-//        try {
-//            return HashPassword.mdFive(password);
-//        } catch (NoSuchAlgorithmException e) { e.printStackTrace(); }
-//        return "hash error";
-//    }
-
     @Override
     public String toString() {
         return "User{" +

@@ -14,10 +14,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UserRepository {
+
+    private static final String CREATE_SQL = "INSERT INTO users  (full_name , user_password ) VALUES (?,?);";
+    private static final String DELETE_SQL = "delete from users WHERE Id=?;";
+    private static final String UPDATE_SQL = "UPDATE users SET full_name  = ?  WHERE id = ?;";
+    private static final String SELECT_SQL = "SELECT * FROM users";
+    private static final String SELECT_BY_ID_SQL = "SELECT * FROM users WHERE id = ?";
+
+
     public static User getById(Long idSearch) throws SQLException {
         User user = new User();
         try (final Connection connection = DBConnector.getConnection();
-             PreparedStatement statement = connection.prepareStatement("SELECT * FROM users WHERE id = ?")){
+             PreparedStatement statement = connection.prepareStatement(SELECT_BY_ID_SQL)){
             statement.setLong(1, idSearch);
             final ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
@@ -31,7 +39,7 @@ public class UserRepository {
 
     public static boolean addUser(User user) throws IOException, SQLException, NoSuchAlgorithmException {
         final Connection connection = DBConnector.getConnection();
-        try (PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO users  (full_name , user_password ) VALUES (?,?);")) {
+        try (PreparedStatement preparedStatement = connection.prepareStatement(CREATE_SQL)) {
             preparedStatement.setString(1, user.getFullName());
             preparedStatement.setString(2,  HashPassword.mdFive(user.getPassword()));
             preparedStatement.executeUpdate();
@@ -45,7 +53,7 @@ public class UserRepository {
 
     public static boolean updateUser(Long id, User user) throws IOException, SQLException, NoSuchAlgorithmException {
         final Connection connection = DBConnector.getConnection();
-        try (PreparedStatement preparedStatement = connection.prepareStatement("UPDATE users SET full_name  = ?  WHERE id = ?;")) {
+        try (PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_SQL)) {
             preparedStatement.setString(1, user.getFullName());
             preparedStatement.setLong(5, id);
             preparedStatement.executeUpdate();
@@ -59,7 +67,7 @@ public class UserRepository {
 
     public static boolean deleteUser(Long idDelete) throws IOException, SQLException {
         final Connection connection = DBConnector.getConnection();
-        try (PreparedStatement preparedStatement = connection.prepareStatement("delete from users WHERE Id=?")) {
+        try (PreparedStatement preparedStatement = connection.prepareStatement(DELETE_SQL)) {
             preparedStatement.setLong(1,idDelete);
             preparedStatement.executeUpdate();
             return true;
@@ -71,7 +79,7 @@ public class UserRepository {
     public static List<User> getAllUsers() throws SQLException, IOException {
         List<User> userList = new ArrayList<>();
         final Connection connection = DBConnector.getConnection();
-        try (PreparedStatement statement = connection.prepareStatement("SELECT * FROM users")) {
+        try (PreparedStatement statement = connection.prepareStatement(SELECT_SQL)) {
             final ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
                 User user = new User();
@@ -86,27 +94,5 @@ public class UserRepository {
         }
         return userList;
     }
-
-
-//    public static User getUsersSingIn(String login, String password) throws SQLException, IOException {
-//        User user = new User();
-//        final Connection connection = JDBC.getConnection();
-//        try (PreparedStatement statement = connection.prepareStatement("SELECT * FROM users WHERE full_name  = (?) And user_password  = (?)")) {
-//            statement.setString(1, login);
-//            statement.setString(2, mdFive(password));
-//            final ResultSet resultSet = statement.executeQuery();
-//            while (resultSet.next()) {
-//                user.setId(resultSet.getLong(1));
-//                user.setFullName(resultSet.getString(2));
-//                user.setPassword(resultSet.getString(3));
-//            }
-//        } catch (NoSuchAlgorithmException e) {
-//            e.printStackTrace();
-//        } finally {
-//            connection.close();
-//        }
-//        return user;
-//    }
-
 
 }
