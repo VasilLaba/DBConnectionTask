@@ -4,8 +4,6 @@ import com.advertisement.project.config.DBConnector;
 import com.advertisement.project.model.User;
 import com.advertisement.project.services.HashPassword;
 
-import java.io.IOException;
-import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -37,7 +35,7 @@ public class UserRepository {
         return user;
     }
 
-    public static boolean addUser(User user) throws IOException, SQLException, NoSuchAlgorithmException {
+    public static boolean addUser(User user) throws SQLException {
         final Connection connection = DBConnector.getConnection();
         try (PreparedStatement preparedStatement = connection.prepareStatement(CREATE_SQL)) {
             preparedStatement.setString(1, user.getFullName());
@@ -51,11 +49,11 @@ public class UserRepository {
         }
     }
 
-    public static boolean updateUser(Long id, User user) throws IOException, SQLException, NoSuchAlgorithmException {
+    public static boolean updateUser(Long id, User user) throws SQLException {
         final Connection connection = DBConnector.getConnection();
         try (PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_SQL)) {
             preparedStatement.setString(1, user.getFullName());
-            preparedStatement.setLong(5, id);
+            preparedStatement.setLong(2, id);
             preparedStatement.executeUpdate();
             return true;
         }catch (SQLException e){
@@ -65,7 +63,7 @@ public class UserRepository {
         }
     }
 
-    public static boolean deleteUser(Long idDelete) throws IOException, SQLException {
+    public static boolean deleteUser(Long idDelete) throws SQLException {
         final Connection connection = DBConnector.getConnection();
         try (PreparedStatement preparedStatement = connection.prepareStatement(DELETE_SQL)) {
             preparedStatement.setLong(1,idDelete);
@@ -76,7 +74,7 @@ public class UserRepository {
         }
     }
 
-    public static List<User> getAllUsers() throws SQLException, IOException {
+    public static List<User> getAllUsers() throws SQLException {
         List<User> userList = new ArrayList<>();
         final Connection connection = DBConnector.getConnection();
         try (PreparedStatement statement = connection.prepareStatement(SELECT_SQL)) {

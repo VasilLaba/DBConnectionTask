@@ -21,5 +21,6 @@ public class Main {
 //        User user = new User("Some User", "pasword");
 //        UserRepository.setUser(user);
         System.out.println(UserRepository.getAllUsers());
+        CommentRepository.getCommentsByAdvertisementId(1l);
     }
 }

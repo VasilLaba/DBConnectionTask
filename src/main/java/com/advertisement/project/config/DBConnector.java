@@ -15,8 +15,6 @@ public class DBConnector {
         Properties properties = new Properties();
         try(FileInputStream fis =  new FileInputStream("db.properties")){
             properties.load(fis);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }

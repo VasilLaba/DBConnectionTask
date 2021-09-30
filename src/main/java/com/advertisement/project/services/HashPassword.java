@@ -12,6 +12,7 @@ public class HashPassword {
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
         }
+
         byte[] bytes = md5.digest(pass.getBytes(StandardCharsets.UTF_8));
         StringBuilder builder = new StringBuilder();
         for(byte b : bytes){

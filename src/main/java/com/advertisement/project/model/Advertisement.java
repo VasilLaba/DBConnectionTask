@@ -12,10 +12,10 @@ public class Advertisement {
     public Advertisement() {
     }
 
-    public Advertisement(String title, String description, LocalDate dateOfCreating) {
+    public Advertisement(String title, String description, LocalDate createdAt) {
         this.title = title;
         this.description = description;
-        this.createdAt = dateOfCreating;
+        this.createdAt = createdAt;
     }
 
     public Advertisement(long id, User user, String title, String description, LocalDate dateOfCreating) {

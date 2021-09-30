@@ -5,6 +5,7 @@ import com.advertisement.project.services.HashPassword;
 
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
+import java.util.Objects;
 
 
 public class User {
@@ -50,6 +51,19 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return id == user.id && Objects.equals(fullName, user.fullName) && Objects.equals(password, user.password) && Objects.equals(advertsList, user.advertsList);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, fullName, password, advertsList);
     }
 
     @Override

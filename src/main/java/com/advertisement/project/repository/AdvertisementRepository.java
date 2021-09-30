@@ -11,6 +11,8 @@ import java.util.List;
 
 public class AdvertisementRepository {
 
+    private  AdvertisementRepository(){}
+
     private static final String CREATE_SQL = "INSERT INTO advertisement ( title, created_at ,description ,user_id ) VALUES (?,?,?,?);";
     private static final String DELETE_SQL = "delete from advertisement WHERE id=?";
     private static final String UPDATE_SQL = "UPDATE advertisement SET title = ?, created_at  = ?, description  = ? WHERE id = ?;";
@@ -18,9 +20,10 @@ public class AdvertisementRepository {
     private static final String SELECT_BY_ID_SQL = "SELECT id, title, created_at, description, user_id FROM advertisement WHERE advertisement.id = (?)";
     private static final String SELECT_BY_USER_ID_SQL ="SELECT Id, title, created_at , description FROM Advertisements WHERE AuthorId = (?)";
 
-    public static Advertisement getAdvertisementById(Long idSearch) throws SQLException, IOException {
+    public static Advertisement getAdvertisementById(Long idSearch) throws SQLException {
+
         Advertisement advert = new Advertisement();
-        final Connection connection = DBConnector.getConnection();
+        final Connection connection = DBConnector.getConnection(); //!!!!
         try (java.sql.PreparedStatement statement = connection.prepareStatement(SELECT_BY_ID_SQL))
         {
             statement.setLong(1, idSearch);
@@ -37,7 +40,7 @@ public class AdvertisementRepository {
         }
         return advert;
     }
-    public static List<Advertisement> getAdvertisementByUserId(Long idSearch) throws SQLException, IOException {
+    public static List<Advertisement> getAdvertisementByUserId(Long idSearch) throws SQLException {
         List<Advertisement> advertisementByUserIdList = new ArrayList<>();
         Advertisement advertisement;
         final Connection connection = DBConnector.getConnection();
@@ -59,7 +62,7 @@ public class AdvertisementRepository {
         }
         return advertisementByUserIdList;
     }
-    public static boolean setAdvertisement(Advertisement advertisement) throws IOException, SQLException {
+    public static boolean setAdvertisement(Advertisement advertisement) throws SQLException {
         final Connection connection = DBConnector.getConnection();
         try (PreparedStatement preparedStatement = connection.prepareStatement(CREATE_SQL)) {
             preparedStatement.setString(1, advertisement.getTitle());
@@ -74,7 +77,7 @@ public class AdvertisementRepository {
             connection.close();
         }
     }
-    public static boolean updateAdvert(Advertisement advertisement) throws IOException, SQLException {
+    public static boolean updateAdvert(Advertisement advertisement) throws SQLException {
         final Connection connection = DBConnector.getConnection();
         try (PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_SQL)) {
             preparedStatement.setString(1, advertisement.getTitle());
@@ -89,7 +92,7 @@ public class AdvertisementRepository {
         }
     }
 
-    public static boolean deleteAdvert(Long idDelete) throws IOException, SQLException {
+    public static boolean deleteAdvert(Long idDelete) throws SQLException {
         final Connection connection = DBConnector.getConnection();
         try (PreparedStatement preparedStatement = connection.prepareStatement(DELETE_SQL)) {
             preparedStatement.setLong(1,idDelete);
@@ -100,7 +103,7 @@ public class AdvertisementRepository {
         }
     }
 
-    public static List<Advertisement> getAllAdverts() throws SQLException, IOException {
+    public static List<Advertisement> getAllAdverts() throws SQLException {
         List<Advertisement> advertisementList = new ArrayList<>();
         final Connection connection = DBConnector.getConnection();
         try (PreparedStatement statement = connection.prepareStatement(SELECT_SQL)) {
