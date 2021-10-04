@@ -1,9 +1,5 @@
 package com.advertisement.project.model;
 
-
-import com.advertisement.project.services.HashPassword;
-
-import java.security.NoSuchAlgorithmException;
 import java.util.List;
 import java.util.Objects;
 

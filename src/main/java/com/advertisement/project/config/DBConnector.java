@@ -1,7 +1,6 @@
 package com.advertisement.project.config;
 
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.sql.DriverManager;
 import org.postgresql.Driver;

@@ -1,27 +1,27 @@
 package com.advertisement.project.model;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 public class Comment {
     private long id;
     private User user;
     private Advertisement advertisement;
     private String text;
-    private LocalDate createdAt; //+ Time
+    private LocalDateTime createdAt; //+ Time
 
     public Comment() {
     }
 
-    public Comment(String text, LocalDate createdAt) {
+    public Comment(String text, LocalDateTime createdAt) {
         this.text = text;
         this.createdAt = createdAt;
     }
 
     public Comment(User user, Advertisement advertisement, String text) {
-        this(user,advertisement, text, LocalDate.now());
+        this(user,advertisement, text, LocalDateTime.now());
     }
 
-    public Comment(User user, Advertisement advertisement, String text, LocalDate createdAt) {
+    public Comment(User user, Advertisement advertisement, String text, LocalDateTime createdAt) {
         this.user = user;
         this.advertisement = advertisement;
         this.text = text;
@@ -60,11 +60,11 @@ public class Comment {
         this.text = text;
     }
 
-    public LocalDate getCreatedAt() {
+    public LocalDateTime getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(LocalDate createdAt) {
+    public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
     }
 
