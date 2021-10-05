@@ -1,8 +1,9 @@
 package com.advertisement.project.model;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 
-public class Advertisement {
+public class Advertisement implements Serializable {
     private long id;
     private User user;
     private String title;

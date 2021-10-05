@@ -1,10 +1,12 @@
 package com.advertisement.project.model;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
 
 
-public class User {
+public class User implements Serializable {
+    private static final long serialVersionUID = 1L;
     private long id;
     private String fullName;
     private String password;
@@ -71,4 +73,6 @@ public class User {
                 ", advertsList=" + advertsList +
                 '}';
     }
+
+
 }

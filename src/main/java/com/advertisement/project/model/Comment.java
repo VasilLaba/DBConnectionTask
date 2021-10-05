@@ -1,8 +1,9 @@
 package com.advertisement.project.model;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
-public class Comment {
+public class Comment implements Serializable {
     private long id;
     private User user;
     private Advertisement advertisement;

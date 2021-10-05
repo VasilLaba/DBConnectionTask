@@ -4,6 +4,8 @@ import com.advertisement.project.config.HikariCPDataSource;
 import com.advertisement.project.model.Advertisement;
 import com.advertisement.project.model.User;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
 import java.sql.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
